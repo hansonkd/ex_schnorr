@@ -1,8 +1,7 @@
 
-## Schnorr Signatures for elixir:
+## Schnorr Signatures for Elixir:
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `ex_schnorr` to your list of dependencies in `mix.exs`:
+Cryptographic Schnorr signatures in Elixir
 
 # ExSchnorr
 
@@ -14,6 +13,8 @@ by adding `ex_schnorr` to your list of dependencies in `mix.exs`:
 {:ok, bytes} = ExSchnorr.priv_to_bytes(priv)
 {:ok, key} = ExSchnorr.priv_from_bytes(bytes)
 
-{:ok, pubbytes} = ExSchnorr.public_to_bytes(priv)
+{:ok, pubbytes} = ExSchnorr.public_to_bytes(pub)
 {:ok, pubkey} = ExSchnorr.public_from_bytes(pubbytes)
+
+{:ok, pubkey2} = ExSchnorr.public_from_private(priv)
 ```
