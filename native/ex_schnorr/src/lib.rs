@@ -27,7 +27,7 @@ fn sign<'a>(
     let context = signing_context(context.as_slice());
     let signature: Signature = key.sign(context.bytes(message));
 
-    let bytes = signature.to_bytes();
+    let bytes = serialize(&signature).unwrap();
 
     let mut bin = match rustler::OwnedBinary::new(bytes.len()) {
         Some(bin) => bin,
@@ -56,6 +56,7 @@ fn verify<'a>(
     let context = signing_context(context.as_slice());
     Ok((atoms::ok(), key_resource.key.verify(context.bytes(msg.as_slice()), &sig).is_ok()).encode(env))
 }
+
 
 #[rustler::nif]
 fn keypair<'a>(
