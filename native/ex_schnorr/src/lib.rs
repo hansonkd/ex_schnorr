@@ -1,5 +1,5 @@
 pub mod atoms;
-use rand::{Rng, rngs::OsRng};
+use rand::{rngs::OsRng};
 use schnorrkel::{Keypair,Signature, SecretKey, PublicKey, signing_context};
 use std::io::Write;
 use bincode::{serialize, deserialize};
@@ -50,7 +50,7 @@ fn verify<'a>(
 ) -> Result<rustler::Term<'a>, rustler::Error> {
     let sig = match deserialize(signature.as_slice()) {
         Ok(sig) => sig,
-        Err(e) => return Ok((atoms::error(), atoms::invalid_signature()).encode(env))
+        Err(_e) => return Ok((atoms::error(), atoms::invalid_signature()).encode(env))
     };
     let key_resource: rustler::ResourceArc<PublicKeyResource> = public_key.decode()?;
     let context = signing_context(context.as_slice());
@@ -80,7 +80,7 @@ fn private_from_bytes<'a>(
 ) -> Result<rustler::Term<'a>, rustler::Error> {
     let secret = match deserialize(private_key.as_slice()) {
         Ok(sig) => sig,
-        Err(e) => return Ok((atoms::error(), atoms::invalid_key()).encode(env))
+        Err(_e) => return Ok((atoms::error(), atoms::invalid_key()).encode(env))
     };
 
     let priv_key_resource = rustler::ResourceArc::new(PrivateKeyResource {
@@ -96,7 +96,7 @@ fn public_from_bytes<'a>(
 ) -> Result<rustler::Term<'a>, rustler::Error> {
     let public = match deserialize(public_key.as_slice()) {
         Ok(sig) => sig,
-        Err(e) => return Ok((atoms::error(), atoms::invalid_key()).encode(env))
+        Err(_e) => return Ok((atoms::error(), atoms::invalid_key()).encode(env))
     };
     let pub_key_resource = rustler::ResourceArc::new(PublicKeyResource {
         key: public,
